@@ -1,0 +1,186 @@
+<html>
+
+    <head>
+        
+        <style>
+            
+            body {
+                font-size : 0.4em;
+            }
+            table {
+                width : 100%;
+            }
+            #pageHeader {
+                border-bottom : 1px solid #666;
+                padding : 10px;
+            }
+            #phDescriptor {
+                font-size : 1.2em;
+            }
+            #phLogo {
+                height : 18px;
+                position : absolute;
+                top : 15px;
+                right : 20px;
+            }
+            #pageFooter {
+                border-top : 1px solid #666;
+                color : #666;
+                padding : 8px;
+                text-align : center;
+            }
+            #printDate {
+                float : left;
+            }
+            #pageNumber {
+                float : right;
+            }
+            .section {
+                padding : 0px;
+                margin-top: 20px;
+            }
+            .section th {
+                border-bottom : 1px solid #eee;
+                font-size: 0.5em;
+                font-weight : 900;
+                text-align : right;
+                width : 30%;
+            }
+            .section th.header {
+                background : #e5e6e5;
+                border-bottom : 5px solid #fff;
+                font-size : 0.5em;
+                padding : 6px 10px;
+                text-align: left;
+            }
+            .section td {
+                border-bottom : 1px solid #eee;
+                font-size : 0.5em;
+                padding-left : 5px;
+            }
+            .heading {
+                color : #0694d4;
+                font-size : 14px;
+                margin-top : 40px;
+                padding : 10px;
+            }
+            .table {
+                border-collapse: separate;
+                border-spacing: 0px;
+            }
+            .table th {
+                background : #e5e6e5;
+                border-bottom : 1px solid #c7c8c7;
+                font-size : 0.5em;
+                padding : 6px 10px;
+                text-align : left;
+            } 
+            .table td {
+                border-bottom : 1px solid #eee;
+                font-size : 0.4em;
+                padding : 3px 10px;
+                text-align : left;
+            }
+            .align-right {
+                text-align : right;
+            }
+            .highlightRed {
+                background-color : #ee4c48;
+                color : #fff;
+            }
+            .highlightGreen {
+                background-color : #8dca38;
+                color : #fff;
+            }
+            .highlightYellow {
+                background-color : #f09b13;
+                color : #fff;
+            }
+            
+        </style>
+        
+    </head>
+
+    <body>
+    
+        <div id="pageHeader">
+            <div id="phDescriptor"></div>
+            <div id="phTitle">Item Flat BOM Report</div>
+            <img id="phLogo" src="https://adsknews.autodesk.com/app/uploads/2021/09/autodesk-logo-primary-rgb-black-large-1536x260.jpg">
+        </div>
+        <div id="pageFooter">
+            <div id="printDate"></div>
+            <div id="pageNumber"><span>Page {{page}}</span> of <span>{{pages}}</span></div>
+        </div>
+
+
+        <div class="section">
+        <table>
+        <tbody>
+        <tr>
+        <th class="header" colspan="2">${workspace.metadata.itemDetails.sections["Basic"].name.value}</th>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Basic"].fields.NUMBER.title}</th>
+        <td>${item.itemDetails.sections["Basic"].fields.NUMBER.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Basic"].fields.TITLE.title}</th>
+        <td>${item.itemDetails.sections["Basic"].fields.TITLE.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Basic"].fields.DESCRIPTION.title}</th>
+        <td>${item.itemDetails.sections["Basic"].fields.DESCRIPTION.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Basic"].fields.IMAGE.title}</th>
+        <td>${item.itemDetails.sections["Basic"].fields.IMAGE.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Basic"].fields.PRIMARY_FILE.title}</th>
+        <td>${item.itemDetails.sections["Basic"].fields.PRIMARY_FILE.value}</td>
+        </tr>
+        </tbody>
+        </table>
+        </div>
+        <br />
+        <div class="flatBom">
+        <table>
+        <tbody>
+        <tr>
+        <th class="header" colspan="7">${workspace.metadata.flatBom.title.value}</th>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.flatBom.fields.no.title}</th>
+        <th>${workspace.metadata.flatBom.fields.descriptor.title}</th>
+        <th>${workspace.metadata.flatBom.fields.lifecycle.title}</th>
+        <th>${workspace.metadata.flatBom.fields.totalWeight.title}</th>
+        <th>${workspace.metadata.flatBom.fields.units.title}</th>
+        <th>${workspace.metadata.flatBom.fields.cost.title}</th>
+        <th>${workspace.metadata.flatBom.fields.subtotal.title}</th>
+        </tr>
+        <!-- #foreach( $flatBom in $item.flatBom.rows ) -->
+        <tr>
+        <td>${flatBom.no.value}</td>
+        <td>${flatBom.descriptor.value}</td>
+        <td>${flatBom.lifecycle.value}</td>
+        <td>${flatBom.totalWeight.value}</td>
+        <td>${flatBom.units.value}</td>
+        <td>${flatBom.cost.value}</td>
+        <td>${flatBom.subtotal.value}</td>
+        </tr>
+        <!-- #end -->
+        <tr>
+        <th colspan="6">${workspace.metadata.flatBom.total.title}</th>
+        <th>${item.flatBom.total.value}</th>
+        </tr>
+        </tbody>
+        </table>
+        </div>
+
+
+        
+
+
+    </body>
+</html>

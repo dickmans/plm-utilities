@@ -1,0 +1,341 @@
+<html>
+
+    <head>
+        
+        <style>
+            
+            body {
+                font-size : 0.4em;
+            }
+            table {
+                width : 100%;
+            }
+            #pageHeader {
+                border-bottom : 1px solid #666;
+                padding : 10px;
+            }
+            #phDescriptor {
+                font-size : 1.2em;
+            }
+            #phLogo {
+                height : 18px;
+                position : absolute;
+                top : 15px;
+                right : 20px;
+            }
+            #pageFooter {
+                border-top : 1px solid #666;
+                color : #666;
+                padding : 8px;
+                text-align : center;
+            }
+            #printDate {
+                float : left;
+            }
+            #pageNumber {
+                float : right;
+            }
+            .section {
+                padding : 0px;
+                margin-top: 20px;
+            }
+            .section th {
+                border-bottom : 1px solid #eee;
+                font-size: 0.5em;
+                font-weight : 900;
+                text-align : right;
+                width : 30%;
+            }
+            .section th.header {
+                background : #e5e6e5;
+                border-bottom : 5px solid #fff;
+                font-size : 0.5em;
+                padding : 6px 10px;
+                text-align: left;
+            }
+            .section td {
+                border-bottom : 1px solid #eee;
+                font-size : 0.5em;
+                padding-left : 5px;
+            }
+            .heading {
+                color : #0694d4;
+                font-size : 14px;
+                margin-top : 40px;
+                padding : 10px;
+            }
+            .table {
+                border-collapse: separate;
+                border-spacing: 0px;
+            }
+            .table th {
+                background : #e5e6e5;
+                border-bottom : 1px solid #c7c8c7;
+                font-size : 0.5em;
+                padding : 6px 10px;
+                text-align : left;
+            } 
+            .table td {
+                border-bottom : 1px solid #eee;
+                font-size : 0.4em;
+                padding : 3px 10px;
+                text-align : left;
+            }
+            .align-right {
+                text-align : right;
+            }
+            .highlightRed {
+                background-color : #ee4c48;
+                color : #fff;
+            }
+            .highlightGreen {
+                background-color : #8dca38;
+                color : #fff;
+            }
+            .highlightYellow {
+                background-color : #f09b13;
+                color : #fff;
+            }
+
+            #gantt {
+                display : flex;
+            }        
+            .column {
+                border-right : 1px solid #eee;
+                float : left;
+            }
+            .column-head {
+                background : #eee;
+            }
+            .data .column-head {
+                font-size : 0.8em;
+                line-height : 1.2em;
+                padding : 5px;
+            }
+            .week .column-head {
+                font-size : 0.6em;
+                line-height : 1.2em;
+                padding : 4px 3px;
+                text-align : center;
+            }
+
+            .column-cell {
+                border-bottom : 1px solid #f5f5f5;
+                font-size : 0.8em;
+                height : 10px;
+                line-height : 10px;
+            }
+            .data .column-cell {
+                padding : 0px 5px;
+            }
+            .sub-task {
+                padding-left : 15px !important;
+            }
+            .week .column-cell {
+                padding-top : 2px;
+                height : 8px;
+            }
+
+            .bar {
+                height : 6px;
+                float : left;
+                width : 100%;
+            }
+            .bar.day {
+                min-width : 20%;
+                width : 20%;
+            }
+            .phase .bar.full  {
+                background : #666666;
+            }         
+            .task .bar.full {
+                background : #009ee0;
+            }      
+            
+        </style>
+        
+    </head>
+
+    <body>
+    
+        <div id="pageHeader">
+            <div id="phDescriptor"></div>
+            <div id="phTitle">Change Order Summary</div>
+            <img id="phLogo" src="https://adsknews.autodesk.com/app/uploads/2021/09/autodesk-logo-primary-rgb-black-large-1536x260.jpg">
+        </div>
+        <div id="pageFooter">
+            <div id="printDate"></div>
+            <div id="pageNumber"><span>Page {{page}}</span> of <span>{{pages}}</span></div>
+        </div>
+
+
+        <div class="section">
+        <table>
+        <tbody>
+        <tr>
+        <th class="header" colspan="2">${workspace.metadata.itemDetails.sections["Summary"].name.value}</th>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.NUMBER.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.NUMBER.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.TITLE.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.TITLE.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.DESCRIPTION.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.DESCRIPTION.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.CHANGE_TEMPLATE.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.CHANGE_TEMPLATE.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.PRIORITY.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.PRIORITY.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.CHANGE_REASON.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.CHANGE_REASON.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.CHANGE_REASON_CODE.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.CHANGE_REASON_CODE.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.CHANGE_REQUESTS.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.CHANGE_REQUESTS.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.STEP.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.STEP.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.TOTAL_TASKS_COUNT.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.TOTAL_TASKS_COUNT.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.PENDING_TASKS_COUNT.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.PENDING_TASKS_COUNT.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.COPIED_TASKS_FROM_TEMPLATE.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.COPIED_TASKS_FROM_TEMPLATE.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.ACTIONS.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.ACTIONS.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.DMS_ID.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.DMS_ID.value}</td>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.itemDetails.sections["Summary"].fields.UPDATE_REQUIRED.title}</th>
+        <td>${item.itemDetails.sections["Summary"].fields.UPDATE_REQUIRED.value}</td>
+        </tr>
+        </tbody>
+        </table>
+        </div>
+        <br />
+        <div class="projectManagement">
+        <table>
+        <tbody>
+        <tr>
+        <th class="header">${workspace.metadata.projectManagement.title.value}</th>
+        </tr>
+        <tr>
+        <td>
+        <table>
+        <tbody>
+        <tr>
+        <th>${workspace.metadata.projectManagement.fields.no.title}</th>
+        <th>${workspace.metadata.projectManagement.fields.title.title}</th>
+        <th>${workspace.metadata.projectManagement.fields.start.title}</th>
+        <th>${workspace.metadata.projectManagement.fields.end.title}</th>
+        <th>${workspace.metadata.projectManagement.fields.duration.title}</th>
+        <th>${workspace.metadata.projectManagement.fields.prerequisite.title}</th>
+        <th>${workspace.metadata.projectManagement.fields.status.title}</th>
+        <th>${workspace.metadata.projectManagement.fields.percentComplete.title}</th>
+        <th>${workspace.metadata.projectManagement.chart.title}</th>
+        </tr>
+        <tr class="first">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <!-- #set( $rowSizePlusOne = ${item.projectManagement.rows.size()} + 1 ) -->
+        <td class="chart-td" rowspan="$rowSizePlusOne">
+        <div id="chart-container">${item.projectManagement.chart}</div>
+        </td>
+        </tr>
+        <!-- #foreach( $row in $item.projectManagement.rows ) -->
+        <tr>
+        <td>${row.no.value}</td>
+        <td>${row.title.value}</td>
+        <td>${row.start.value}</td>
+        <td>${row.end.value}</td>
+        <td>${row.duration.value}</td>
+        <td>${row.prerequisite.value}</td>
+        <td class="${row.statusClass.value}">${row.status.value}</td>
+        <td>${row.percentComplete.value}</td>
+        </tr>
+        <!-- #end -->
+        <tr>
+        <th>&nbsp;</th>
+        <th>${item.projectManagement.summary.value}</th>
+        <th>${item.projectManagement.start.value}</th>
+        <th>${item.projectManagement.end.value}</th>
+        <th>${item.projectManagement.duration.value}</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>${item.projectManagement.percentComplete.value}</th>
+        <th>&nbsp;</th>
+        </tr>
+        </tbody>
+        </table>
+        </td>
+        </tr>
+        </tbody>
+        </table>
+        </div>
+        <br /><br /><br />
+        <div class="linkedItems">
+        <table>
+        <tbody>
+        <tr>
+        <th class="header" colspan="7">${workspace.metadata.linkedItems.title.value}</th>
+        </tr>
+        <tr>
+        <th>${workspace.metadata.linkedItems.fields.NO.title}</th>
+        <th>${workspace.metadata.linkedItems.fields.ITEM.title}</th>
+        <th>${workspace.metadata.linkedItems.fields.CHANGE_PERFORMED.title}</th>
+        <th>${workspace.metadata.linkedItems.fields.DISPOSITION.title}</th>
+        <th>${workspace.metadata.linkedItems.fields.IN_STOCK_QUANTITY.title}</th>
+        <th>${workspace.metadata.linkedItems.fields.LOCATION.title}</th>
+        <th>${workspace.metadata.linkedItems.fields.VALUE.title}</th>
+        </tr>
+        <!-- #foreach( $linkedItem in $item.linkedItems.rows ) -->
+        <tr>
+        <td>${linkedItem.NO.value}</td>
+        <td>${linkedItem.ITEM.value}</td>
+        <td>${linkedItem.CHANGE_PERFORMED.value}</td>
+        <td>${linkedItem.DISPOSITION.value}</td>
+        <td>${linkedItem.IN_STOCK_QUANTITY.value}</td>
+        <td>${linkedItem.LOCATION.value}</td>
+        <td>${linkedItem.VALUE.value}</td>
+        </tr>
+        <!-- #end --></tbody>
+        </table>
+        </div>
+
+        
+
+
+    </body>
+</html>

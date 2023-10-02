@@ -1,0 +1,471 @@
+<html>
+
+    <head>
+        
+        <style>
+            
+            body {
+                font-size : 0.4em;
+            }
+            table {
+                width : 100%;
+            }
+            #pageHeader {
+                border-bottom : 1px solid #666;
+                padding : 10px;
+            }
+            #phDescriptor {
+                font-size : 1.2em;
+            }
+            #phLogo {
+                height : 18px;
+                position : absolute;
+                top : 15px;
+                right : 20px;
+            }
+            #pageFooter {
+                border-top : 1px solid #666;
+                color : #666;
+                padding : 8px;
+                text-align : center;
+            }
+            #printDate {
+                float : left;
+            }
+            #pageNumber {
+                float : right;
+            }
+            .section {
+                padding : 0px;
+                margin-top: 20px;
+            }
+            .section th {
+                border-bottom : 1px solid #eee;
+                font-size: 0.5em;
+                font-weight : 900;
+                text-align : right;
+                width : 30%;
+            }
+            .section th.header {
+                background : #e5e6e5;
+                border-bottom : 5px solid #fff;
+                font-size : 0.5em;
+                padding : 6px 10px;
+                text-align: left;
+            }
+            .section td {
+                border-bottom : 1px solid #eee;
+                font-size : 0.5em;
+                padding-left : 5px;
+            }
+            .heading {
+                color : #0694d4;
+                font-size : 14px;
+                margin-top : 40px;
+                padding : 10px;
+            }
+            .table {
+                border-collapse: separate;
+                border-spacing: 0px;
+            }
+            .table th {
+                background : #e5e6e5;
+                border-bottom : 1px solid #c7c8c7;
+                font-size : 0.5em;
+                padding : 6px 10px;
+                text-align : left;
+            } 
+            .table td {
+                border-bottom : 1px solid #eee;
+                font-size : 0.4em;
+                padding : 3px 10px;
+                text-align : left;
+            }
+            .align-right {
+                text-align : right;
+            }
+            .highlightRed {
+                background-color : #ee4c48;
+                color : #fff;
+            }
+            .highlightGreen {
+                background-color : #8dca38;
+                color : #fff;
+            }
+            .highlightYellow {
+                background-color : #f09b13;
+                color : #fff;
+            }
+            
+        </style>
+        
+    </head>
+
+    <body>
+    
+        <div id="pageHeader">
+            <div id="phDescriptor"></div>
+            <div id="phTitle">Problem Report Summary</div>
+            <img id="phLogo" src="https://adsknews.autodesk.com/app/uploads/2021/09/autodesk-logo-primary-rgb-black-large-1536x260.jpg">
+        </div>
+        <div id="pageFooter">
+            <div id="printDate"></div>
+            <div id="pageNumber"><span>Page {{page}}</span> of <span>{{pages}}</span></div>
+        </div>
+
+
+        <div class="section">
+            <table>
+            <tbody>
+            <tr>
+            <th class="header" colspan="2">${workspace.metadata.itemDetails.sections["Header"].name.value}</th>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Header"].fields.NUMBER.title}</th>
+            <td>${item.itemDetails.sections["Header"].fields.NUMBER.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Header"].fields.TITLE.title}</th>
+            <td>${item.itemDetails.sections["Header"].fields.TITLE.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Header"].fields.DESCRIPTION.title}</th>
+            <td>${item.itemDetails.sections["Header"].fields.DESCRIPTION.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Header"].fields.PRIORITY.title}</th>
+            <td>${item.itemDetails.sections["Header"].fields.PRIORITY.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Header"].fields.TYPE.title}</th>
+            <td>${item.itemDetails.sections["Header"].fields.TYPE.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Header"].fields.SOURCE.title}</th>
+            <td>${item.itemDetails.sections["Header"].fields.SOURCE.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Header"].fields.STATUS_LABEL.title}</th>
+            <td>${item.itemDetails.sections["Header"].fields.STATUS_LABEL.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Header"].fields.PERCENT_COMPLETE.title}</th>
+            <td>${item.itemDetails.sections["Header"].fields.PERCENT_COMPLETE.value}</td>
+            </tr>
+            </tbody>
+            </table>
+            </div>
+            <br />
+            <div class="section">
+            <table>
+            <tbody>
+            <tr>
+            <th class="header" colspan="2">${workspace.metadata.itemDetails.sections["Details"].name.value}</th>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Details"].fields.AFFECTED_PRODUCT.title}</th>
+            <td>${item.itemDetails.sections["Details"].fields.AFFECTED_PRODUCT.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Details"].fields.AFFECTED_ITEM.title}</th>
+            <td>${item.itemDetails.sections["Details"].fields.AFFECTED_ITEM.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Details"].fields.AFFECTED_QUANTITY.title}</th>
+            <td>${item.itemDetails.sections["Details"].fields.AFFECTED_QUANTITY.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Details"].fields.SEQUENCE_LEADING_TO_ISSUE.title}</th>
+            <td>${item.itemDetails.sections["Details"].fields.SEQUENCE_LEADING_TO_ISSUE.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Details"].fields.IMPACT.title}</th>
+            <td>${item.itemDetails.sections["Details"].fields.IMPACT.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Details"].fields.PROPOSED_ACTIONS.title}</th>
+            <td>${item.itemDetails.sections["Details"].fields.PROPOSED_ACTIONS.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Details"].fields.TARGET_RESOLUTION_DATE.title}</th>
+            <td>${item.itemDetails.sections["Details"].fields.TARGET_RESOLUTION_DATE.value}</td>
+            </tr>
+            </tbody>
+            </table>
+            </div>
+            <br />
+            <div class="section">
+            <table>
+            <tbody>
+            <tr>
+            <th class="header" colspan="2">${workspace.metadata.itemDetails.sections["Review"].name.value}</th>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Review"].fields.PROBLEM_VERIFICATION.title}</th>
+            <td>${item.itemDetails.sections["Review"].fields.PROBLEM_VERIFICATION.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Review"].fields.ROOT_CAUSE.title}</th>
+            <td>${item.itemDetails.sections["Review"].fields.ROOT_CAUSE.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Review"].fields.ROOT_CAUSE_CODE.title}</th>
+            <td>${item.itemDetails.sections["Review"].fields.ROOT_CAUSE_CODE.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Review"].fields.EXPECTED_COST.title}</th>
+            <td>${item.itemDetails.sections["Review"].fields.EXPECTED_COST.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Review"].fields.AFFECTED_SUPPLIER.title}</th>
+            <td>${item.itemDetails.sections["Review"].fields.AFFECTED_SUPPLIER.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Review"].fields.ACTION_TAKEN.title}</th>
+            <td>${item.itemDetails.sections["Review"].fields.ACTION_TAKEN.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Review"].fields.COMMMENTS.title}</th>
+            <td>${item.itemDetails.sections["Review"].fields.COMMMENTS.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Review"].fields.REVIEWED_BY.title}</th>
+            <td>${item.itemDetails.sections["Review"].fields.REVIEWED_BY.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Review"].fields.REVIEW_DATE.title}</th>
+            <td>${item.itemDetails.sections["Review"].fields.REVIEW_DATE.value}</td>
+            </tr>
+            </tbody>
+            </table>
+            </div>
+            <br />
+            <div class="section">
+            <table>
+            <tbody>
+            <tr>
+            <th class="header" colspan="2">${workspace.metadata.itemDetails.sections["Technical Analysis"].name.value}</th>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Technical Analysis"].fields.TECHNICIAN.title}</th>
+            <td>${item.itemDetails.sections["Technical Analysis"].fields.TECHNICIAN.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Technical Analysis"].fields.TECHNICAL_ANALYSIS_TARGET_DATE.title}</th>
+            <td>${item.itemDetails.sections["Technical Analysis"].fields.TECHNICAL_ANALYSIS_TARGET_DATE.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Technical Analysis"].fields.TECHNICAL_ANALYSIS_COMPLETION_DATE.title}</th>
+            <td>${item.itemDetails.sections["Technical Analysis"].fields.TECHNICAL_ANALYSIS_COMPLETION_DATE.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Technical Analysis"].fields.TECHNICAL_ANALYSIS_COMMENTS.title}</th>
+            <td>${item.itemDetails.sections["Technical Analysis"].fields.TECHNICAL_ANALYSIS_COMMENTS.value}</td>
+            </tr>
+            </tbody>
+            </table>
+            </div>
+            <br />
+            <div class="section">
+            <table>
+            <tbody>
+            <tr>
+            <th class="header" colspan="2">${workspace.metadata.itemDetails.sections["Related Processes"].name.value}</th>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Related Processes"].fields.CAPA_REQUESTED.title}</th>
+            <td>${item.itemDetails.sections["Related Processes"].fields.CAPA_REQUESTED.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Related Processes"].fields.CAPA.title}</th>
+            <td>${item.itemDetails.sections["Related Processes"].fields.CAPA.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Related Processes"].fields.CAPA_CREATION_DATE.title}</th>
+            <td>${item.itemDetails.sections["Related Processes"].fields.CAPA_CREATION_DATE.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Related Processes"].fields.CR_REQUESTED.title}</th>
+            <td>${item.itemDetails.sections["Related Processes"].fields.CR_REQUESTED.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Related Processes"].fields.CHANGE_REQUEST.title}</th>
+            <td>${item.itemDetails.sections["Related Processes"].fields.CHANGE_REQUEST.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.itemDetails.sections["Related Processes"].fields.CR_CREATION_DATE.title}</th>
+            <td>${item.itemDetails.sections["Related Processes"].fields.CR_CREATION_DATE.value}</td>
+            </tr>
+            </tbody>
+            </table>
+            </div>
+            <br />
+            <div class="milestones">
+            <table>
+            <tbody>
+            <tr>
+            <th class="header" colspan="7">${workspace.metadata.milestones.title.value}</th>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.milestones.fields["workflowStateName"].title}</th>
+            <th>${workspace.metadata.milestones.fields["milestoneType"].title}</th>
+            <th>${workspace.metadata.milestones.fields["milestoneDate"].title}</th>
+            <th>${workspace.metadata.milestones.fields["status"].title}</th>
+            <th>${workspace.metadata.milestones.fields["dayDiff"].title}</th>
+            <th>${workspace.metadata.milestones.fields["warnThreshold"].title}</th>
+            <th>${workspace.metadata.milestones.fields["progress"].title}</th>
+            </tr>
+            <!-- #foreach( $milestone in $item.milestones.rows ) -->
+            <tr>
+            <td>${milestone["workflowStateName"].value}</td>
+            <td>${milestone["milestoneType"].value}</td>
+            <td>${milestone["milestoneDate"].value}</td>
+            <td>${milestone["status"].value}</td>
+            <td>${milestone["dayDiff"].value}</td>
+            <td>${milestone["warnThreshold"].value}</td>
+            <td>${milestone["progress"].value}</td>
+            </tr>
+            <!-- #end --></tbody>
+            </table>
+            </div>
+            <br /><br />
+            <div class="attachments">
+            <table>
+            <tbody>
+            <tr>
+            <th class="header" colspan="2">${workspace.metadata.attachments.title.value} (${item.attachments.rows.size()})</th>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.attachments.fields.shortcut.title}</th>
+            <th>${workspace.metadata.attachments.fields.descriptor.title}</th>
+            </tr>
+            <!-- #foreach( $attachment in $item.attachments.rows ) -->
+            <tr>
+            <td>${attachment.icon.value} ${attachment.shortcut.value}</td>
+            <td>${attachment.descriptor.value}</td>
+            </tr>
+            <!-- #end --></tbody>
+            </table>
+            <br />
+            <table>
+            <tbody>
+            <tr>
+            <th class="header" colspan="3">${workspace.metadata.attachments.detailsTitle.value}</th>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.attachments.fields.fileInfo.title}</th>
+            <th>${workspace.metadata.attachments.fields.fileStatus.title}</th>
+            <th>${workspace.metadata.attachments.fields.thumbnail.title}</th>
+            </tr>
+            <!-- #foreach( $attachment in $item.attachments.rows ) -->
+            <tr>
+            <td>${attachment.icon.value} ${attachment.fileInfo.value}</td>
+            <th>${attachment.fileStatus.value}</th>
+            <td>&nbsp;</td>
+            </tr>
+            <tr>
+            <td>
+            <table>
+            <tbody>
+            <tr>
+            <th>${workspace.metadata.attachments.fields.fileName.title}</th>
+            <td>${attachment.fileName.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.attachments.fields.fileDescription.title}</th>
+            <td>${attachment.fileDescription.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.attachments.fields.fileType.title}</th>
+            <td>${attachment.fileType.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.attachments.fields.fileSize.title}</th>
+            <td>${attachment.fileSize.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.attachments.fields.fileVersion.title}</th>
+            <td>${attachment.fileVersion.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.attachments.fields.timeStamp.title}</th>
+            <td>${attachment.timeStamp.value}</td>
+            </tr>
+            </tbody>
+            </table>
+            </td>
+            <td>
+            <table>
+            <tbody>
+            <tr>
+            <th>${workspace.metadata.attachments.fields.by.title}</th>
+            <td>${attachment.by.value}</td>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.attachments.fields.at.title}</th>
+            <td>${attachment.at.value}</td>
+            </tr>
+            </tbody>
+            </table>
+            </td>
+            <td>${attachment.thumbnail.value}</td>
+            </tr>
+            <!-- #end --></tbody>
+            </table>
+            <br /><br />
+            </div>
+            <div class="grid">
+                <table>
+                <tbody>
+                <tr>
+                <th class="header" colspan="4">${workspace.metadata.grid.title.value}</th>
+                </tr>
+                <tr>
+                <th>${workspace.metadata.grid.fields.rowID.title}</th>
+                <th>${workspace.metadata.grid.fields.DATE.title}</th>
+                <th>${workspace.metadata.grid.fields.NOTE.title}</th>
+                <th>${workspace.metadata.grid.fields.CREATOR.title}</th>
+                </tr>
+                <!-- #foreach( $grid in $item.grid.rows ) -->
+                <tr>
+                <td>${grid.rowID.value}</td>
+                <td>${grid.DATE.value}</td>
+                <td>${grid.NOTE.value}</td>
+                <td>${grid.CREATOR.value}</td>
+                </tr>
+                <!-- #end --></tbody>
+                </table>
+                </div>
+            <div class="changeLog">
+            <table>
+            <tbody>
+            <tr>
+            <th class="header" colspan="4">${workspace.metadata.changeLog.title.value}</th>
+            </tr>
+            <tr>
+            <th>${workspace.metadata.changeLog.fields.timeStamp.title}</th>
+            <th>${workspace.metadata.changeLog.fields.userID.title}</th>
+            <th>${workspace.metadata.changeLog.fields.action.title}</th>
+            <th>${workspace.metadata.changeLog.fields.description.title}</th>
+            </tr>
+            <!-- #foreach( $changeLog in $item.changeLog.rows ) -->
+            <tr>
+            <td>${changeLog.timeStamp.value}</td>
+            <td>${changeLog.userID.value}</td>
+            <td>${changeLog.action.value} <strong>${changeLog.linkedItem.value}</strong></td>
+            <td>${changeLog.description.value} <!-- #if( $changeLog.historyItemList.value.size() > 0 ) -->
+            <ul><!-- #foreach( $historyItem in $changeLog.historyItemList.value ) -->
+            <li>${historyItem}</li>
+            <!-- #end --></ul>
+            <!-- #end --></td>
+            </tr>
+            <!-- #end --></tbody>
+            </table>
+            </div>
+            
+        
+        
+
+
+    </body>
+</html>

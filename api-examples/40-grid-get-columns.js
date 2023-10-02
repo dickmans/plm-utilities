@@ -1,0 +1,55 @@
+// GET GRID COLUMNS DEFINITION
+// Before using this script, create a new Forge app at forge.autodesk.com (this service is for free)
+// Please provide clientId and clientSecret of your Forge app in file settings.js before 
+// Author: Sven Dickmans, Autodesk
+
+/* --------------------------------------------------------------------------------------------------------
+    Change Log
+    - 2022-02-16: Integration in TS F3M Extensions Package
+    - 2021-09-13: Moved login to utils.js
+    - 2021-03-17: Initial version
+   -------------------------------------------------------------------------------------------------------- */
+
+
+//Options
+let wsId  = '84';       // Equals to workspace Change Orders in default tenant
+
+
+const axios     = require('axios');
+const f3m       = require('../node_modules_adsk/f3m.js');
+const utils     = require('../node_modules_adsk/utils.js');
+const settings  = require('../settings.js');
+
+
+utils.printStart([ ['Workspace', wsId] ]);
+
+f3m.login().then(function() {
+    getGridColumns(function() {
+        utils.printEnd();
+    });
+});
+
+
+
+// Get colmuns in grid
+function getGridColumns(callback) {
+
+    let url = 'https://' + settings.tenant + '.autodeskplm360.net/api/v3/workspaces/' + wsId + '/views/13/fields';
+    
+    axios.get(url).then(function (response) {
+
+        if(response.status === 204) {
+            console.log('   > no grid columns found for worksapce ' + wsId);
+        } else {
+            for(field of response.data.fields) {
+                console.log(field);
+            }
+        }
+        
+        callback();
+        
+    }).catch(function (error) {
+        console.log(error);    
+    });
+    
+}
