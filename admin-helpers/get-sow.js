@@ -1,10 +1,11 @@
 // RETRIEVE THE MY OUTSTANDING WORK LIST OF SOMEONE ELSE
 // Please provide clientId and clientSecret of your Forge app in file settings.js before 
-// Set options in file /options/store-dmsid.js
+// Set options in file /options/get-sow.js
 // Author: Sven Dickmans, Autodesk
 
 /* --------------------------------------------------------------------------------------------------------
     Change Log
+    - 2024-05-14: Added further details to report
     - 2022-04-29: Initial Version
    -------------------------------------------------------------------------------------------------------- */
 
@@ -37,7 +38,6 @@ function genReport(result) {
     let stream   = fs.createWriteStream(pathFile);
     
     stream.once('open', function(fd) {
-        //var html = buildHtml();
 
         let html = '<!DOCTYPE html>';
             html += '<html>';
@@ -53,18 +53,22 @@ function genReport(result) {
             html += '<p>Total Records : ' + result.count + '</p>';
             html += '<p>Last Update   : ' + utils.getDateTimeString(new Date(result.lastRecalculateUpdate)) + '</p>';
             html += '<table>';
-            html += '<tr><th>Due Date</th><th>Flag</th><th>Item</th><th>Workspace</th><th>Status</th></tr>';
+            html += '<tr><th>Due Date</th><th>Delegated</th><th>Escalated</th><th>Item Descriptor</th><th>Workspace</th><th>State</th><th>State Set On</th><th>State Set By</th></tr>';
 
-            for(item of result.outstandingWork) {
+            for(let item of result.outstandingWork) {
 
-                let date = (typeof item.milestoneDate === 'undefined') ? '' : utils.getDateTimeString(new Date(item.milestoneDate));
+                let dateDue   = (typeof item.milestoneDate === 'undefined') ? '' : utils.getDateTimeString(new Date(item.milestoneDate));
+                let dateSince = (typeof item.workflowStateSetDate === 'undefined') ? '' : utils.getDateTimeString(new Date(item.workflowStateSetDate));
 
                 html += '<tr>';
-                html += '<td>' + date + '</td>';
-                html += '<td>' + item.workflowStateName + '</td>';
+                html += '<td>' + dateDue + '</td>';
+                html += '<td>' + item.delegated + '</td>';
+                html += '<td>' + item.escalated + '</td>';
                 html += '<td><a target="_blank" href="' + utils.genItemHREF(item.item.link) + ' ">' + item.item.title + '</a></td>';
                 html += '<td>' + item.workspace.title + '</td>';
                 html += '<td>' + item.workflowStateName + '</td>';
+                html += '<td>' + dateSince + '</td>';
+                html += '<td>' + item.workflowUser.title + '</td>';
                 html += '</tr>';
 
             }
