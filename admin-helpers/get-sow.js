@@ -5,6 +5,7 @@
 
 /* --------------------------------------------------------------------------------------------------------
     Change Log
+    - 2024-05-15: Enhanced outputs to console
     - 2024-05-14: Added further details to report
     - 2022-04-29: Initial Version
    -------------------------------------------------------------------------------------------------------- */
@@ -36,7 +37,9 @@ function genReport(result) {
 
     let pathFile = '../out/' + options.file;
     let stream   = fs.createWriteStream(pathFile);
-    
+
+    utils.print('Using output file ' + options.file);
+
     stream.once('open', function(fd) {
 
         let html = '<!DOCTYPE html>';
@@ -55,22 +58,31 @@ function genReport(result) {
             html += '<table>';
             html += '<tr><th>Due Date</th><th>Delegated</th><th>Escalated</th><th>Item Descriptor</th><th>Workspace</th><th>State</th><th>State Set On</th><th>State Set By</th></tr>';
 
-            for(let item of result.outstandingWork) {
+            if(typeof result.outstandingWork !== 'undefined') {
 
-                let dateDue   = (typeof item.milestoneDate === 'undefined') ? '' : utils.getDateTimeString(new Date(item.milestoneDate));
-                let dateSince = (typeof item.workflowStateSetDate === 'undefined') ? '' : utils.getDateTimeString(new Date(item.workflowStateSetDate));
+                console.log();
+                utils.print('Found ' + result.count + ' entries in MoW of ' + options.user);
+                utils.printLine();
 
-                html += '<tr>';
-                html += '<td>' + dateDue + '</td>';
-                html += '<td>' + item.delegated + '</td>';
-                html += '<td>' + item.escalated + '</td>';
-                html += '<td><a target="_blank" href="' + utils.genItemHREF(item.item.link) + ' ">' + item.item.title + '</a></td>';
-                html += '<td>' + item.workspace.title + '</td>';
-                html += '<td>' + item.workflowStateName + '</td>';
-                html += '<td>' + dateSince + '</td>';
-                html += '<td>' + item.workflowUser.title + '</td>';
-                html += '</tr>';
+                for(let item of result.outstandingWork) {
+                    
+                    utils.print(item.item.title);
 
+                    let dateDue   = (typeof item.milestoneDate === 'undefined') ? '' : utils.getDateTimeString(new Date(item.milestoneDate));
+                    let dateSince = (typeof item.workflowStateSetDate === 'undefined') ? '' : utils.getDateTimeString(new Date(item.workflowStateSetDate));
+
+                    html += '<tr>';
+                    html += '<td>' + dateDue + '</td>';
+                    html += '<td>' + item.delegated + '</td>';
+                    html += '<td>' + item.escalated + '</td>';
+                    html += '<td><a target="_blank" href="' + utils.genItemHREF(item.item.link) + ' ">' + item.item.title + '</a></td>';
+                    html += '<td>' + item.workspace.title + '</td>';
+                    html += '<td>' + item.workflowStateName + '</td>';
+                    html += '<td>' + dateSince + '</td>';
+                    html += '<td>' + item.workflowUser.title + '</td>';
+                    html += '</tr>';
+
+                }
             }
 
             html += '<table>';
@@ -79,7 +91,7 @@ function genReport(result) {
 
         stream.end(html);
 
-        utils.print('Found ' + result.count + ' entries');
+        console.log();
         utils.print('Output saved to ../out/' + options.file);
         utils.printEnd();
 
