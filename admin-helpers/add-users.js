@@ -13,7 +13,6 @@
     - 2020-05-20: Initial version
    -------------------------------------------------------------------------------------------------------- */
 
-
 const f3m       = require('../node_modules_adsk/f3m.js');
 const utils     = require('../node_modules_adsk/utils.js');
 const data      = require('./data/add-users.js');
@@ -95,6 +94,8 @@ function addUser() {
 
         f3m.addUser({
             'email'      : user[0],
+            'uom'        : data.uom,
+            'timezone'   : data.timezone,
             'licenseCode': 'S'   // P: Participant, S: Professional
         }).then(function(response) {
 
