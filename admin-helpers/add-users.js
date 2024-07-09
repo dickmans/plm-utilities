@@ -96,7 +96,7 @@ function addUser() {
             'email'      : user[0],
             'uom'        : data.uom,
             'timezone'   : data.timezone,
-            'licenseCode': 'S'   // P: Participant, S: Professional
+            'license'    : data.license
         }).then(function(response) {
 
             if(response === 'error') {
