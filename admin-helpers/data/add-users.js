@@ -3,10 +3,10 @@
 
 exports.uom      = 'Metric';     // Set to English or Metric
 exports.timezone = 'Etc/GMT+1';  // Set user timezone
+exports.license  = '';           // Set this to value for demo/trial tenants which manage licenses internally ( use 'S' for Professional license and 'P' for Participant )
 
 exports.users = [
     ['sven.dickmans@autodesk.com', ['Engineering', 'Quality']],
-    ['frank@fusion.rocks', ['Engineering', 'Quality']],
-    ['mike@fusion.rocks', ['Suppliers']],
-    ['sarah.supplier@fusion.rocks', ['Suppliers']]
+    ['becky@forge.tools', ['Engineering', 'Quality']],
+    ['selena@forge.tools', ['Suppliers']]
 ]
