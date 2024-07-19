@@ -5,6 +5,7 @@
 
 /* --------------------------------------------------------------------------------------------------------
     Change Log
+    - 2024-07-18: Update to reflect changes in library
     - 2023-01-26: Replacement of API calls with f3m library & bugfixes
     - 2022-02-16: Integration in TS F3M Extensions Package
     - Oct 30: Added Error Handling for workspaces having classification sections without root node defined
@@ -30,7 +31,7 @@
 const options   = require('./options.js');
 const settings  = require('../settings.js');
 const utils     = require('../node_modules_adsk/utils.js');
-const f3m       = require('../node_modules_adsk/f3m.js');
+const plm       = require('../node_modules_adsk/f3m.js');
 const fs        = require('fs');
 const xl        = require('excel4node');
 const tenant    = settings.tenant;
@@ -156,7 +157,7 @@ let styleDefault = wb.createStyle({
 setLayout();
 setPath();
 createFolders();
-f3m.login().then(function() { getBasics(); });
+plm.login().then(function() { getBasics(); });
 
 
 // Initialize
@@ -631,13 +632,13 @@ function getBasics() {
     utils.printLine();
     
     let requests = [
-        f3m.getWorkspaces(),
-        f3m.getScripts(),
-        f3m.getPicklists(),
-        f3m.getUsersV1(),
-        f3m.getGroupsV1(),
-        f3m.getRolesV1(),
-        f3m.getPermissions()
+        plm.getWorkspaces(),
+        plm.getScripts(),
+        plm.getPicklists(),
+        plm.getUsersV1(),
+        plm.getGroupsV1(),
+        plm.getRolesV1(),
+        plm.getPermissions()
     ];
 
     Promise.all(requests).then(function(data) {
@@ -881,7 +882,7 @@ function downloadScript() {
     
     utils.print('Saving script ' + spacer + indexScripts + ' of ' + scripts.length + ' : ' + scriptName);
     
-    f3m.downloadScript(scriptId).then(function(data) {
+    plm.downloadScript(scriptId).then(function(data) {
         fs.writeFile(path + '/' + scriptName + '.js', data.code, function() {
             downloadScripts();
         }); 
@@ -931,7 +932,7 @@ function downloadPicklist() {
         
         if(options.extractPicklists){
             
-            f3m.getPicklist(picklist.uri).then(function(data) {
+            plm.getPicklist(picklist.uri).then(function(data) {
                 
                 let picklistValues  = (typeof data.picklist.values !== 'undefined') ? data.picklist.values : [];
                 let values          = [];
@@ -1370,21 +1371,21 @@ function getWorkspaceDetails() {
             console.log('    Workspace ' + spacer + number + ' of ' + workspaces.length + ': ' + workspace.label + ' (' + workspaceId + ')');
 
             let requests = [
-                f3m.getWorkspaceType(workspaceId),
-                f3m.getWorkspaceTabs(workspaceId),
-                f3m.getWorkspaceScripts(workspaceId),
-                f3m.getWorkspaceSections(workspaceId),
-                f3m.getWorkspaceFields(workspaceId),
-                f3m.getWorkspaceGridColumns(workspaceId),
-                f3m.getWorkspaceManagedItemsColumns(workspaceId),
-                f3m.getWorkspacePrintViews(workspaceId),
-                f3m.getRelatedWorkspacesBOM(workspaceId),
-                f3m.getRelatedWorkspacesGantt(workspaceId),
-                f3m.getRelatedWorkspacesRelationships(workspaceId),
-                f3m.getRelatedWorkspacesManagedItems(workspaceId),
-                f3m.getWorkspaceStates(workspaceId),
-                f3m.getWorkspaceTransitions(workspaceId),
-                f3m.getWorkspaceSectionsFields(workspaceId)
+                plm.getWorkspaceType(workspaceId),
+                plm.getWorkspaceTabs(workspaceId),
+                plm.getWorkspaceScripts(workspaceId),
+                plm.getWorkspaceSections(workspaceId),
+                plm.getWorkspaceFields(workspaceId),
+                plm.getWorkspaceGridColumns(workspaceId),
+                plm.getWorkspaceManagedItemsColumns(workspaceId),
+                plm.getWorkspacePrintViews(workspaceId),
+                plm.getRelatedWorkspacesBOM(workspaceId),
+                plm.getRelatedWorkspacesGantt(workspaceId),
+                plm.getRelatedWorkspacesRelationships(workspaceId),
+                plm.getRelatedWorkspacesManagedItems(workspaceId),
+                plm.getWorkspaceStates(workspaceId),
+                plm.getWorkspaceTransitions(workspaceId),
+                plm.getWorkspaceSectionsFields(workspaceId)
             ];
 
             Promise.all(requests).then(function(wsData) {
@@ -2121,15 +2122,15 @@ function printSystemLog(callback) {
     
     if(options.limitSystemLog > 0) {
 
-        f3m.getSystemLog({ 'limit' : options.limitSystemLog }).then(function(response) {
+        plm.getSystemLog({ 'limit' : options.limitSystemLog }).then(function(response) {
 
-            fs.writeFile(options.folder + '/Logs/system-log.json', JSON.stringify(response, null, 3), function() {
+            fs.writeFile(options.folder + '/Logs/system-log.json', JSON.stringify(response.data, null, 3), function() {
                 
-                console.log('    Adding ' + response.items.length + ' out of ' + response.totalCount + ' total system log entries');
+                console.log('    Adding ' + response.data.items.length + ' out of ' + response.data.totalCount + ' total system log entries');
 
                 let row = 2;
 
-                for(item of response.items) {
+                for(item of response.data.items) {
 
                     let invoker     = (item.hasOwnProperty('actionInvoker')) ? item.actionInvoker : '';
                     let descriptor  = (item.hasOwnProperty('item')) ? item.item.title : '';
@@ -2177,7 +2178,7 @@ function printSetupLog(callback) {
     
     if(options.limitSetupLog > 0) {
     
-        f3m.getSetupLog({ 'limit' : options.limitSetupLog }).then(function(response) {
+        plm.getSetupLog({ 'limit' : options.limitSetupLog }).then(function(response) {
 
             fs.writeFile(options.folder + '/Logs/setup-log.json', JSON.stringify(response, null, 3), function() {
             
