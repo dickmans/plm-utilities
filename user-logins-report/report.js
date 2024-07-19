@@ -4,6 +4,7 @@
 
 /* --------------------------------------------------------------------------------------------------------
     Change Log
+    - 2024-07-18: Improved reliability
     - 2023-01-27: Replacement of axios calls with f3m library
     - 2022-02-16: Integration in TS F3M Extensions Package
     - 2021-04-15: Initial version
@@ -16,9 +17,9 @@ const f3m       = require('../node_modules_adsk/f3m.js');
 const fs        = require('fs');
 
 
-let limit           = 100;
+let limit           = 25;
 let offset          = 0;
-let totalCount      = 120;
+let totalCount      = 100;
 let logins          = [];
 let records         = [];
 let users           = [];
@@ -27,10 +28,13 @@ let startWeek       = new Date();
 let startMonth      = new Date();
 let endPrevMonth    = new Date();
 let startDate       = new Date();
+let lastDate        = new Date();
 let fileName        = '';
 let folder          = 'reports';
 let printAllLogins  = true;
-let requestCount    = 6;
+let requestCount    = 3;
+let failedRequests  = 0;
+let maxFailures     = 100;
     
 setDates();
 setFile();
@@ -52,11 +56,11 @@ f3m.login().then(function() {
 // Get log entries
 function getSystemLogs() {
     
-    let lastDate = new Date();
     let requests = [];
+    let next    = 0;
 
     for(let i = 0; i < requestCount; i++) {
-        let next = offset + (i * limit);
+        next = offset + (i * limit);
         if(next < totalCount) {
             requests.push(f3m.getSystemLog( { 'offset' : next, 'limit' : limit } ));
         }
@@ -64,67 +68,84 @@ function getSystemLogs() {
 
     Promise.all(requests).then(function (responses) {
 
-        for(response of responses) {
-        
-            if(response.totalCount > totalCount) {
-                printLine('    There are ' + response.totalCount + ' log entries in total');
-                printLine('');
-                totalCount = response.totalCount;
-            }
-        
-            let events = response.items;
-        
-            printLine('    Getting log entries ' + (offset + 1) + ' to ' + (offset + limit) + ' (ending ' + events[events.length - 1].timestamp + ')');
-        
-            for(logEvent of events) {
-                
-                if(logEvent.action === 'Log In') {
-                    
-                    lastDate        = new Date(logEvent.timestamp);
-                    let record      = logEvent.timestamp.substr(0, 10) + '|' + logEvent.user.urn;
-                    let userRecord  = null;
-                    
-                    if(lastDate.getTime() > startDate.getTime()) {
-                        
-                        for(user of users) {
-                            if(user.title === logEvent.user.title) {
-                                userRecord = user;
-                            }
-                        }
-                        
-                        if(userRecord === null) {
-                        userRecord = {
-                                title   : logEvent.user.title,
-                                week    : 0,
-                                month   : 0,
-                                last    : 0,
-                                prev    : 0 
-                            }
-                            users.push(userRecord);
-                        }
-                        
-                        logins.push(logEvent.timestamp + '  |  ' + logEvent.user.title);
-                    
-                        if(records.indexOf(record) === -1) {
+        for(let response of responses) {
+            
+                 if(typeof response        === 'undefined') { failedRequests++; printLine('Response is undefined, proceeding with next');         }
+            else if(typeof response.data   === 'undefined') { failedRequests++; printLine('Response data is undefined, proceeding with next');    }
+            else if(typeof response.data.length   ===    0) { failedRequests++; printLine('Response data is of length 0');    }
+            else if(typeof response.status === 'undefined') { failedRequests++; printLine('Response status is undefined, proceeding with next');  }
+            else if(       response.status !== 200)         { failedRequests++; printLine('Response status is unexpected (' + response.status + '), proceeding with next'); }
+            else {
 
-                                if(lastDate.getTime()  >=    startWeek.getTime()) { loginCounts[0]++; userRecord.week++;  }
-                                if(lastDate.getTime()  >=   startMonth.getTime()) { loginCounts[1]++; userRecord.month++; }
-                            else if(lastDate.getTime() >= endPrevMonth.getTime()) { loginCounts[2]++; userRecord.last++;  }
-                            else                                                  { loginCounts[3]++; userRecord.prev++;  }
-                        
-                        }
-                                            
-                        records.push(record);
-                        
-                    }
+                failedRequests = 0;
+        
+                if(response.data.totalCount > totalCount) {
+                    printLine('    There are ' + response.data.totalCount + ' log entries in total');
+                    printLine('');
+                    totalCount = response.data.totalCount;
                 }
-            } 
             
+                let events = response.data.items;
+            
+                printLine('    Getting log entries ' + (offset + 1) + ' to ' + (offset + limit) + ' (ending ' + events[events.length - 1].timestamp + ')');
+            
+                for(let logEvent of events) {
+                    
+                    if(logEvent.action === 'Log In') {
+                        
+                        lastDate        = new Date(logEvent.timestamp);
+                        let record      = logEvent.timestamp.substr(0, 10) + '|' + logEvent.user.urn;
+                        let userRecord  = null;
+                        
+                        if(lastDate.getTime() > startDate.getTime()) {
+                            
+                            for(let user of users) {
+                                if(user.title === logEvent.user.title) {
+                                    userRecord = user;
+                                }
+                            }
+                            
+                            if(userRecord === null) {
+                                userRecord = {
+                                    title   : logEvent.user.title,
+                                    week    : 0,
+                                    month   : 0,
+                                    last    : 0,
+                                    prev    : 0 
+                                }
+                                users.push(userRecord);
+                            }
+                            
+                            logins.push(logEvent.timestamp + '  |  ' + logEvent.user.title);
+                        
+                            if(records.indexOf(record) === -1) {
+
+                                     if(lastDate.getTime() >=    startWeek.getTime()) { loginCounts[0]++; userRecord.week++;  }
+                                     if(lastDate.getTime() >=   startMonth.getTime()) { loginCounts[1]++; userRecord.month++; }
+                                else if(lastDate.getTime() >= endPrevMonth.getTime()) { loginCounts[2]++; userRecord.last++;  }
+                                else                                                  { loginCounts[3]++; userRecord.prev++;  }
+                            
+                            }
+                                                
+                            records.push(record);
+                            
+                        }
+                    }
+                } 
+                
+            }
+
             offset = offset + limit;
-            
+
         }
 
-        if((lastDate.getTime() > startDate.getTime()) && (offset < totalCount)) {
+        if(failedRequests >= maxFailures) {
+            console.log();
+            console.log();
+            console.log('  !!! ABORTED after ' + failedRequests + ' failing requests !!!');
+            console.log();
+            console.log();
+        } else if((lastDate.getTime() > startDate.getTime()) && (offset < totalCount)) {
             getSystemLogs();
         } else {
             printResults();
