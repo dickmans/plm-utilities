@@ -20,10 +20,10 @@ The following utilities are included in this package:
     6. Store DMSID : Store the dmsId for all records in a defined workspace
     7. Disable Users : Prevent future logins for defined users
     8. Validat 2FA : List all users not haveing 2-factor-authentication enabled
-**Extract Tenant Configuration** : Document your tenant's configuration and extract script sources automatijcally
-**Share Workspace Views** : Share predefined workspaces views with new defined users
-**User Logins Report** : Track logins by end users to your tenant
-**Demo Reset** : Archive new data after a training or test session
-**Excel Export** : Extract standard PLM Report to Excel for reuse in PowerBI
-**E-Mail Listener** : Capture information from mails in PLM
-**PDF Export** : Convert Avanced Print Views to PDF
+- **Extract Tenant Configuration** : Document your tenant's configuration and extract script sources automatijcally
+- **Share Workspace Views** : Share predefined workspaces views with new defined users
+- **User Logins Report** : Track logins by end users to your tenant
+- **Demo Reset** : Archive new data after a training or test session
+- **Excel Export** : Extract standard PLM Report to Excel for reuse in PowerBI
+- **E-Mail Listener** : Capture information from mails in PLM
+- **PDF Export** : Convert Avanced Print Views to PDF
