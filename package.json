@@ -1,14 +1,14 @@
 {
   "dependencies": {
-    "axios": "^1.4.0",
-    "excel4node": "^1.2.1",
-    "form-data": "^4.0.0",
-    "html-pdf": "^3.0.1",
-    "imap": "^0.8.17",
-    "mailparser": "^3.5.0",
-    "node-html-parser": "^5.3.3"
+    "axios": "*",
+    "excel4node": "*",
+    "form-data": "*",
+    "html-pdf": "^1.5.0",
+    "imap": "*",
+    "mailparser": "*",
+    "node-html-parser": "*"
   },
-  "name": "ts-f3m-extensions",
+  "name": "plm-utilities",
   "version": "1.0.0",
   "main": "settings.js",
   "scripts": {
@@ -16,5 +16,5 @@
   },
   "author": "sven.dickmans@autodesk.com",
   "license": "ISC",
-  "description": "Fusion 360 Manage REST API Examples"
+  "description": "Fusion Manage Administration Utilities"
 }
