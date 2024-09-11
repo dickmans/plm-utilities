@@ -10,8 +10,8 @@ Before using this package please have a look at the instructions.pdf which conta
 
 The following utilities are included in this package:
 
-**API Examples**: Basic node.js code snippets to explore the REST API
-**Implementation Helpers**: Utilities for administrators
+- **API Examples**: Basic node.js code snippets to explore the REST API
+- **Implementation Helpers**: Utilities for administrators
     1. Add Users: Create multiple users and assign to groups
     2. Touch Records: trigger modifications on given records to invoke the onEdit scripts
     3. Transition Records : Peform a defined workflow transition on multiple records matching a given search criteria
