@@ -21,7 +21,7 @@ let fileName    = 'BOM.xlsx';
 let folderName  = '';
 
 
-const axios     = require('../node_modules/axios');
+const axios     = require('axios');
 const f3m       = require('../node_modules_adsk/f3m.js');
 const utils     = require('../node_modules_adsk/utils.js');
 const settings  = require('../settings.js');
